@@ -371,7 +371,7 @@ else:
     random_accumulated_rewards/=RANDOM_RANGE
 
 
-#EDIT HOW YOU WANT TO SAVE THE DATA. 
+#EDIT HOW YOU WANT TO SAVE THE DATA
 #save_path= '/local/data/public/am2648'
 #name_of_file='SVI'+'N'+str(N)+'TRUE_RANK'+str(TRUE_RANK)+'seed'+str(seed_number)
 
@@ -392,6 +392,7 @@ else:
 #    np.savetxt(outfile, rating_error, delimiter=',')
 
 TOTAL_TIME_2=time.clock()
+
 print('TOTAL_TIME')
 print(TOTAL_TIME_2-TOTAL_TIME_1)
 
