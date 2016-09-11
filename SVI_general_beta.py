@@ -257,24 +257,10 @@ def MainBandit(observed_matrix, true_full_matrix,ratings, index_list,RANDOM, TRU
     theano_observed_matrix.set_value((np.nan_to_num(is_observed_matrix_numpy*observed_matrix)).astype(np.float64))
     is_observed_matrix.set_value(np.nan_to_num(is_observed_matrix_numpy*np.ones((D,N)).astype(np.float64)))
     
-    #Estimate variance of the variational posterior of wwT+sigmaI w/Monte Carlo
-    t1=time.clock()
-    Kmean=np.mean([covariance_matrix.eval() for i in range(100)], axis=0)
-    Kvar=np.mean([(np.power(covariance_matrix.eval()-Kmean,2)) for i in range(100)], axis=0).sum()
     
-    #If the variance is large then run a longer variational inference and observe more entries
-    #If variance is small then run a short VI and observe fewer entries
-    if (Kvar/(D*D))>0.5:
-        limit=1000
-        Nobs=int(2*NUM_INITIAL_RANDOM_OBSERVATIONS)
-        print(Kvar/(D*D))
-        print(Nobs)
-    else:
-        limit=50
-        Nobs=NUM_INITIAL_RANDOM_OBSERVATIONS
-    t2=time.clock()
-    print("variance check time")
-    print(t2-t1)
+    Nobs=NUM_INITIAL_RANDOM_OBSERVATIONS
+    limit=100
+    elbo_list=GPFA(observed_matrix, limit, CONSTRUCT_ELBO_LIST, elbo_list)
     
     
     for n in range(Nobs):
